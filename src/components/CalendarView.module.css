@@ -1,0 +1,200 @@
+.root { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.title { font-size: 26px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+
+.body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Calendar panel ── */
+.calendarPanel {
+  width: 380px;
+  flex-shrink: 0;
+  padding: 20px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.monthNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navBtn {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+  line-height: 1;
+}
+.navBtn:hover { background: var(--border-accent); }
+
+.monthTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.12s;
+}
+.monthTitle:hover { background: var(--surface-elevated); }
+
+.dayHeaders {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 2px;
+}
+.dayHeader {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.dayCell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  gap: 2px;
+  transition: background 0.12s;
+  font-family: inherit;
+}
+.dayCell:hover { background: var(--surface-elevated); }
+
+.dayNum { font-size: 14px; font-weight: 500; color: var(--text-primary); line-height: 1; }
+
+.today { background: var(--surface-elevated) !important; border: 1px solid var(--accent); }
+.today .dayNum { color: var(--accent); font-weight: 700; }
+.selected { background: var(--accent) !important; border-color: transparent !important; }
+.selected .dayNum { color: #fff; font-weight: 700; }
+.previewed { background: rgba(74,144,217,0.12) !important; }
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.dotSelected { background: rgba(255,255,255,0.8); }
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.todayDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--accent);
+  background: var(--surface-elevated);
+}
+
+/* ── Preview panel ── */
+.previewPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.previewEmpty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 40px;
+  text-align: center;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.previewDateLabel { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+.previewCount { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+.previewList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewNote {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s;
+  text-align: left;
+  width: 100%;
+}
+.previewNote:hover { background: var(--surface-elevated); transform: translateX(2px); }
+
+.noteColorBar {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.noteInfo { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.noteTitle { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.noteType { font-size: 11px; color: var(--text-muted); text-transform: capitalize; }

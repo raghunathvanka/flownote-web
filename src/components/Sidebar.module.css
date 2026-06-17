@@ -1,0 +1,91 @@
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.logoIcon { font-size: 24px; }
+.logoText { display: block; font-size: 16px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1; }
+.logoSub { font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 2px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.12s;
+  width: 100%;
+}
+.navItem:hover { background: var(--surface-elevated); color: var(--text-primary); }
+.active { background: rgba(74,144,217,0.12) !important; color: var(--accent) !important; font-weight: 600; }
+
+.section {
+  padding: 12px 8px 8px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 12px 6px;
+}
+
+.dateItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s;
+  width: 100%;
+}
+.dateItem:hover { background: var(--surface-elevated); }
+.dateActive { background: rgba(74,144,217,0.1) !important; }
+
+.dateName { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.dateNum { font-size: 10px; color: var(--text-muted); }
+
+.footer {
+  margin-top: auto;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+.footerText { font-size: 11px; color: var(--text-muted); }
+.footerVersion { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
