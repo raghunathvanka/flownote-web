@@ -134,7 +134,7 @@ export default function Workspace({ date }: Props) {
 
   return (
     <div className={styles.root}>
-      {/* Header */}
+      {/* Desktop Header (hidden on mobile via CSS) */}
       <div className={styles.header}>
         <div>
           <h1 className={styles.dateLabel}>{formatDateLabel(date)}</h1>
@@ -167,7 +167,7 @@ export default function Workspace({ date }: Props) {
             <span className={styles.emptyIcon}>📋</span>
             <p className={styles.emptyTitle}>{isToday ? 'Start Your Day' : 'No Notes'}</p>
             <p className={styles.emptyText}>
-              {isToday ? 'Click "Add Note" to create your first note for today.' : 'No notes were created on this date.'}
+              {isToday ? 'Tap the + button below to create your first note for today.' : 'No notes were created on this date.'}
             </p>
           </div>
         ) : (
@@ -179,12 +179,9 @@ export default function Workspace({ date }: Props) {
                 onDelete={handleDeleteNote}
                 onColorChange={handleColorChange}
               >
-                {/* Text note body */}
                 {note.type === 'text' && (
                   <TextBody note={note} onUpdate={handleUpdateNote} />
                 )}
-
-                {/* Checklist note body */}
                 {note.type === 'checklist' && (
                   <ChecklistBody
                     note={note}
@@ -197,8 +194,6 @@ export default function Workspace({ date }: Props) {
                     onOpenSubNote={(item) => handleOpenSubNote(item, note)}
                   />
                 )}
-
-                {/* Reminder note body */}
                 {note.type === 'reminder' && (
                   <ReminderBody note={note} onUpdate={handleUpdateNote} />
                 )}
@@ -219,6 +214,31 @@ export default function Workspace({ date }: Props) {
           }
         />
       )}
+
+      {/* ── Mobile FAB: Floating + button ── */}
+      <div className={styles.fab}>
+        <button
+          className={styles.fabBtn}
+          onClick={() => setAddingType(addingType ? null : 'text')}
+          aria-label="Add note"
+        >
+          <span className={`${styles.fabIcon} ${addingType ? styles.fabIconClose : ''}`}>+</span>
+        </button>
+        {addingType !== null && (
+          <div className={styles.fabMenu}>
+            {(['checklist', 'text', 'reminder'] as const).map(type => (
+              <button key={type} className={styles.fabOption} onClick={() => handleAddNote(type)}>
+                <span className={styles.fabOptionIcon}>
+                  {type === 'text' ? '📝' : type === 'checklist' ? '☑️' : '🔔'}
+                </span>
+                <span className={styles.fabOptionLabel}>
+                  {type === 'text' ? 'Text Note' : type === 'checklist' ? 'Checklist' : 'Reminder'}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Close add menu on outside click */}
       {addingType !== null && (
