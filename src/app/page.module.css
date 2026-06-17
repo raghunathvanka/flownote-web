@@ -1,57 +1,51 @@
+/* ══════════════════════════════════════════════════
+   DESKTOP LAYOUT
+   ══════════════════════════════════════════════════ */
 .app {
   display: flex;
+  flex-direction: row;
   height: 100vh;
-  height: 100dvh; /* iOS Safari dynamic viewport fix */
+  height: 100dvh;
   overflow: hidden;
   background: var(--bg);
   position: relative;
 }
 
-/* ── Sidebar wrapper ─────────────────────────────── */
+/* Sidebar: normal flex column on desktop */
 .sidebarWrapper {
   flex-shrink: 0;
-  z-index: 60;
+  height: 100%;
+  overflow: hidden;
 }
 
-/* ── Main content ────────────────────────────────── */
+/* Main: vertical flex column taking remaining space */
 .main {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  position: relative;
-  min-width: 0;
 }
 
+/* Page content area (scrollable, takes remaining space) */
 .pageContent {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  min-height: 0;
 }
 
-/* ── Mobile top bar (hidden on desktop) ──────────── */
-.mobileTopBar {
-  display: none;
-}
+/* Mobile top bar: hidden on desktop */
+.mobileTopBar { display: none; }
 
-/* ── Backdrop (mobile sidebar overlay) ───────────── */
-.backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 55;
-  backdrop-filter: blur(2px);
-  animation: fadeIn 0.15s ease-out;
-}
+/* Bottom nav: hidden on desktop */
+.bottomNav { display: none; }
 
-/* ── Bottom nav (hidden on desktop) ─────────────── */
-.bottomNav {
-  display: none;
-}
+/* Backdrop: hidden on desktop */
+.backdrop { display: none; }
 
-/* ── Carry-forward banner ────────────────────────── */
+/* Carry-forward banner */
 .carryBanner {
   display: flex;
   align-items: center;
@@ -63,7 +57,6 @@
   font-weight: 500;
   color: var(--accent-light);
   flex-shrink: 0;
-  animation: fadeIn 0.3s ease-out;
 }
 .dismissBtn {
   background: none;
@@ -71,14 +64,12 @@
   color: var(--accent);
   cursor: pointer;
   font-size: 16px;
-  padding: 0 4px;
+  padding: 2px 6px;
   border-radius: 4px;
-  transition: background 0.12s;
   line-height: 1;
 }
-.dismissBtn:hover { background: rgba(74, 144, 217, 0.2); }
 
-/* ── Splash screen ───────────────────────────────── */
+/* Splash screen */
 .splash {
   height: 100vh;
   height: 100dvh;
@@ -92,55 +83,59 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  animation: fadeIn 0.4s ease-out;
 }
 .splashIcon { font-size: 52px; }
-.splashTitle {
-  font-size: 40px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -1px;
-}
-.splashSub {
-  font-size: 15px;
-  color: var(--text-muted);
-  animation: pulse 1.5s infinite;
-}
+.splashTitle { font-size: 40px; font-weight: 800; color: var(--text-primary); letter-spacing: -1px; }
+.splashSub { font-size: 15px; color: var(--text-muted); }
 
 /* ══════════════════════════════════════════════════
-   MOBILE STYLES  (≤ 768px)
+   MOBILE LAYOUT  (≤ 768px)
    ══════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* Sidebar: pull fully out of flex flow, use fixed overlay */
+  /* Sidebar: taken out of flex flow entirely, slides in as overlay */
   .sidebarWrapper {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 260px;
+    /* Keep natural width from Sidebar component (220px) */
+    width: 220px;
+    /* Slide fully off-screen to the left */
     transform: translateX(-100%);
-    transition: transform 0.25s ease-out;
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
-    z-index: 60;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    box-shadow: none;
   }
+  /* When open: slide in */
   .sidebarOpen {
-    transform: translateX(0);
+    transform: translateX(0) !important;
+    box-shadow: 6px 0 32px rgba(0, 0, 0, 0.6) !important;
   }
 
-  /* Show mobile top bar */
+  /* Backdrop: dark overlay behind open sidebar */
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 99;
+    animation: fadeIn 0.15s ease-out;
+  }
+
+  /* Mobile top bar */
   .mobileTopBar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 12px;
     height: 50px;
-    border-bottom: 1px solid var(--border);
+    min-height: 50px;
     flex-shrink: 0;
     background: var(--surface);
+    border-bottom: 1px solid var(--border);
   }
 
-  /* Hamburger button */
   .hamburger {
     display: flex;
     flex-direction: column;
@@ -151,35 +146,35 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    padding: 9px;
     border-radius: 8px;
-    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
   }
-  .hamburger:active { background: var(--surface-elevated); }
   .hamburger span {
     display: block;
     height: 2px;
     background: var(--text-primary);
     border-radius: 2px;
+    width: 100%;
   }
+  .hamburger:active { opacity: 0.7; }
 
   .mobileTitle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     font-size: 15px;
     font-weight: 700;
     color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
-  /* Show bottom tab bar */
+  /* Bottom tab bar */
   .bottomNav {
     display: flex;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
     flex-shrink: 0;
-    z-index: 10;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .bottomTab {
@@ -188,26 +183,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
     padding: 8px 4px 10px;
     background: none;
     border: none;
     cursor: pointer;
     font-family: inherit;
-    transition: background 0.12s;
     color: var(--text-muted);
     -webkit-tap-highlight-color: transparent;
+    transition: color 0.12s;
   }
-  .bottomTab:active { background: var(--surface-elevated); }
-  .bottomTabActive { color: var(--accent) !important; }
+  .bottomTab:active { opacity: 0.7; }
+  .bottomTabActive {
+    color: var(--accent) !important;
+  }
   .bottomTabIcon { font-size: 22px; line-height: 1; }
   .bottomTabLabel {
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
   }
 
-  /* Compact carry banner on mobile */
   .carryBanner { font-size: 12px; padding: 6px 12px; }
 }

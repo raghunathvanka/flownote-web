@@ -33,7 +33,6 @@ export default function Home() {
       .catch(() => setReady(true));
   }, []);
 
-  // Close sidebar when page changes on mobile
   const handlePageChange = (p: string) => {
     setPage(p as Page);
     setSidebarOpen(false);
@@ -60,12 +59,12 @@ export default function Home() {
   return (
     <div className={styles.app}>
 
-      {/* Sidebar overlay backdrop (mobile only) */}
+      {/* ── Sidebar overlay backdrop (mobile) ── */}
       {sidebarOpen && (
         <div className={styles.backdrop} onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Sidebar — hidden on mobile unless open */}
+      {/* ── Sidebar: desktop = fixed column | mobile = hidden overlay ── */}
       <div className={`${styles.sidebarWrapper} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
         <Sidebar
           selectedDate={selectedDate}
@@ -76,24 +75,25 @@ export default function Home() {
         />
       </div>
 
+      {/* ── Main column: top-bar → content → bottom-nav ── */}
       <main className={styles.main}>
+
         {/* Mobile top bar */}
         <div className={styles.mobileTopBar}>
           <button
             className={styles.hamburger}
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            aria-label="Toggle menu"
+            aria-label="Open menu"
           >
             <span /><span /><span />
           </button>
-          <div className={styles.mobileTitle}>
-            <span>{PAGE_ICONS[page]}</span>
-            <span>{PAGE_LABELS[page]}</span>
-          </div>
+          <span className={styles.mobileTitle}>
+            {PAGE_ICONS[page]} {PAGE_LABELS[page]}
+          </span>
           <div style={{ width: 40 }} />
         </div>
 
-        {/* Carry-forward notification */}
+        {/* Carry-forward banner */}
         {carryCount > 0 && (
           <div className={styles.carryBanner}>
             ↩ {carryCount} task{carryCount > 1 ? 's' : ''} carried forward
@@ -101,7 +101,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* Page content */}
+        {/* Page content — flex:1, scrollable */}
         <div className={styles.pageContent}>
           {page === 'workspace' && <Workspace date={selectedDate} />}
           {page === 'calendar' && (
@@ -109,21 +109,22 @@ export default function Home() {
           )}
           {page === 'settings' && <SettingsPanel />}
         </div>
-      </main>
 
-      {/* Mobile bottom tab bar */}
-      <nav className={styles.bottomNav}>
-        {(['workspace', 'calendar', 'settings'] as Page[]).map((p) => (
-          <button
-            key={p}
-            className={`${styles.bottomTab} ${page === p ? styles.bottomTabActive : ''}`}
-            onClick={() => handlePageChange(p)}
-          >
-            <span className={styles.bottomTabIcon}>{PAGE_ICONS[p]}</span>
-            <span className={styles.bottomTabLabel}>{PAGE_LABELS[p]}</span>
-          </button>
-        ))}
-      </nav>
+        {/* ── Mobile bottom tab bar (inside main so it sits BELOW content) ── */}
+        <nav className={styles.bottomNav}>
+          {(['workspace', 'calendar', 'settings'] as Page[]).map((p) => (
+            <button
+              key={p}
+              className={`${styles.bottomTab} ${page === p ? styles.bottomTabActive : ''}`}
+              onClick={() => handlePageChange(p)}
+            >
+              <span className={styles.bottomTabIcon}>{PAGE_ICONS[p]}</span>
+              <span className={styles.bottomTabLabel}>{PAGE_LABELS[p]}</span>
+            </button>
+          ))}
+        </nav>
+
+      </main>
     </div>
   );
 }
