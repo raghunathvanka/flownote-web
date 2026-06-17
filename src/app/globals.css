@@ -71,6 +71,11 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
+  /* Prevent bounce scroll on iOS */
+  overscroll-behavior: none;
+  /* Better touch handling */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Scrollbar */

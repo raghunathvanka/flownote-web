@@ -9,9 +9,10 @@ interface Props {
   onDateSelect: (date: string) => void;
   activePage: string;
   onPageChange: (page: string) => void;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ selectedDate, onDateSelect, activePage, onPageChange }: Props) {
+export default function Sidebar({ selectedDate, onDateSelect, activePage, onPageChange, onClose }: Props) {
   const [recentDates, setRecentDates] = useState<string[]>([]);
 
   useEffect(() => {
@@ -31,10 +32,13 @@ export default function Sidebar({ selectedDate, onDateSelect, activePage, onPage
       {/* Logo */}
       <div className={styles.logo}>
         <span className={styles.logoIcon}>📋</span>
-        <div>
+        <div style={{ flex: 1 }}>
           <span className={styles.logoText}>FlowNote</span>
           <span className={styles.logoSub}>Web</span>
         </div>
+        {onClose && (
+          <button className={styles.closeBtn} onClick={onClose} aria-label="Close menu">✕</button>
+        )}
       </div>
 
       {/* Navigation */}

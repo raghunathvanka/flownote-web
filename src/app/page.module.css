@@ -3,24 +3,100 @@
   height: 100vh;
   overflow: hidden;
   background: var(--bg);
+  position: relative;
 }
 
+/* ── Sidebar wrapper ─────────────────────────────── */
+.sidebarWrapper {
+  flex-shrink: 0;
+  z-index: 60;
+}
+
+/* ── Main content ────────────────────────────────── */
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  min-width: 0;
 }
 
-/* Carry-forward banner */
+.pageContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Mobile top bar (hidden on desktop) ──────────── */
+.mobileTopBar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.hamburger:hover { background: var(--surface-elevated); }
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.mobileTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ── Backdrop (mobile sidebar overlay) ───────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 55;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* ── Bottom nav (hidden on desktop) ─────────────── */
+.bottomNav {
+  display: none;
+  flex-shrink: 0;
+}
+
+/* ── Carry-forward banner ────────────────────────── */
 .carryBanner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
-  background: rgba(74,144,217,0.12);
-  border-bottom: 1px solid rgba(74,144,217,0.25);
+  padding: 8px 16px;
+  background: rgba(74, 144, 217, 0.12);
+  border-bottom: 1px solid rgba(74, 144, 217, 0.25);
   font-size: 13px;
   font-weight: 500;
   color: var(--accent-light);
@@ -34,13 +110,13 @@
   cursor: pointer;
   font-size: 16px;
   padding: 0 4px;
-  line-height: 1;
   border-radius: 4px;
   transition: background 0.12s;
+  line-height: 1;
 }
-.dismissBtn:hover { background: rgba(74,144,217,0.2); }
+.dismissBtn:hover { background: rgba(74, 144, 217, 0.2); }
 
-/* Splash screen */
+/* ── Splash screen ───────────────────────────────── */
 .splash {
   height: 100vh;
   display: flex;
@@ -66,4 +142,63 @@
   font-size: 15px;
   color: var(--text-muted);
   animation: pulse 1.5s infinite;
+}
+
+/* ══════════════════════════════════════════════════
+   MOBILE STYLES  (≤ 768px)
+   ══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Hide desktop sidebar, show as overlay */
+  .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease-out;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+  }
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  /* Show mobile top bar */
+  .mobileTopBar {
+    display: flex;
+  }
+
+  /* Show bottom tab bar */
+  .bottomNav {
+    display: flex;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .bottomTab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 4px 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.12s;
+    color: var(--text-muted);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bottomTab:active { background: var(--surface-elevated); }
+  .bottomTabActive { color: var(--accent) !important; }
+
+  .bottomTabIcon { font-size: 20px; line-height: 1; }
+  .bottomTabLabel { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Compact carry banner on mobile */
+  .carryBanner { font-size: 12px; padding: 6px 12px; }
 }
