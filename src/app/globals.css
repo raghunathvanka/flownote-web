@@ -214,17 +214,19 @@ input::placeholder, textarea::placeholder { color: var(--text-muted); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-sm);
   border: none;
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.15s;
-  font-size: 14px;
+  font-size: 15px;
+  -webkit-tap-highlight-color: transparent;
 }
 .icon-btn:hover { background: var(--surface-elevated); color: var(--text-primary); }
+.icon-btn:active { background: var(--surface-elevated); opacity: 0.7; }
 
 /* Progress bar */
 .progress-bar {
@@ -242,9 +244,10 @@ input::placeholder, textarea::placeholder { color: var(--text-muted); }
 
 /* Checkbox */
 .checkbox {
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 6px;
   border: 2px solid rgba(255,255,255,0.2);
   background: transparent;
   cursor: pointer;
@@ -253,6 +256,33 @@ input::placeholder, textarea::placeholder { color: var(--text-muted); }
   justify-content: center;
   flex-shrink: 0;
   transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 .checkbox.checked { background: var(--accent); border-color: var(--accent); }
 .checkbox:hover:not(.checked) { border-color: var(--accent); }
+.checkbox:active { transform: scale(0.9); }
+
+/* Mobile touch-friendly globals */
+@media (max-width: 768px) {
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+  }
+  .checkbox {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-radius: 7px;
+  }
+  .btn {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+  /* Date/time inputs on mobile use native UI — ensure readable */
+  input[type="date"],
+  input[type="time"] {
+    color-scheme: dark;
+    min-height: 44px;
+  }
+}

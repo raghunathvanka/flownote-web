@@ -8,6 +8,7 @@
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .logo {
@@ -22,19 +23,22 @@
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.12s;
   padding: 0;
   flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 .closeBtn:hover { background: var(--surface-elevated); color: var(--text-primary); }
+.closeBtn:active { opacity: 0.7; }
+
 .logoIcon { font-size: 24px; }
 .logoText { display: block; font-size: 16px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1; }
 .logoSub { font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
@@ -50,7 +54,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 12px;
+  min-height: 44px;
   border-radius: 8px;
   border: none;
   background: transparent;
@@ -62,8 +67,10 @@
   text-align: left;
   transition: all 0.12s;
   width: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 .navItem:hover { background: var(--surface-elevated); color: var(--text-primary); }
+.navItem:active { opacity: 0.8; }
 .active { background: rgba(74,144,217,0.12) !important; color: var(--accent) !important; font-weight: 600; }
 
 .section {
@@ -86,7 +93,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 10px 12px;
+  min-height: 44px;
   border-radius: 8px;
   border: none;
   background: transparent;
@@ -94,8 +102,10 @@
   font-family: inherit;
   transition: background 0.12s;
   width: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 .dateItem:hover { background: var(--surface-elevated); }
+.dateItem:active { opacity: 0.8; }
 .dateActive { background: rgba(74,144,217,0.1) !important; }
 
 .dateName { font-size: 13px; font-weight: 500; color: var(--text-primary); }

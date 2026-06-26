@@ -29,7 +29,7 @@
 .label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
 .parent { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.body { flex: 1; overflow-y: auto; padding: 16px; }
+.body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
 
 .loading { color: var(--text-muted); font-style: italic; text-align: center; padding-top: 40px; }
 
@@ -41,3 +41,17 @@
 
 .subNoteContent { border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .subNoteHeader { display: flex; flex-direction: column; gap: 4px; }
+
+/* ── Mobile: full-width panel ── */
+@media (max-width: 768px) {
+  .panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-left: none;
+    z-index: 200;
+  }
+}

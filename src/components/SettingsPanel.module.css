@@ -7,11 +7,21 @@
 .loading { padding: 40px; text-align: center; color: var(--text-muted); }
 
 @media (max-width: 768px) {
-  .root { padding: 14px; }
+  .root { padding: 14px 14px 24px; }
   .header { display: none; }
-  .sections { max-width: 100%; }
-  .row { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .themeOptions { flex-wrap: wrap; }
+  .sections { max-width: 100%; gap: 16px; }
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .themeOptions { flex-wrap: wrap; gap: 8px; }
+  .themeBtn { padding: 8px 14px; font-size: 13px; min-height: 40px; }
+  /* Larger toggle on mobile */
+  .toggle { width: 52px; height: 28px; }
+  .toggleSlider::before { height: 22px; width: 22px; }
+  .toggle input:checked + .toggleSlider::before { transform: translateX(24px); }
 }
 
 

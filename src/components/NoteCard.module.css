@@ -19,32 +19,41 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 2px 5px;
-  border-radius: 4px;
-  font-size: 13px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  font-size: 15px;
   transition: background 0.12s;
   line-height: 1;
+  min-width: 32px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 }
 .hBtn:hover { background: rgba(0,0,0,0.08); }
+.hBtn:active { background: rgba(0,0,0,0.15); }
 
 .colorPicker {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  gap: 10px;
+  padding: 10px 14px;
   border-bottom: 1px solid;
   flex-wrap: wrap;
 }
 .colorDot {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   transition: transform 0.12s;
   outline-offset: 2px;
+  -webkit-tap-highlight-color: transparent;
 }
-.colorDot:hover { transform: scale(1.2); }
+.colorDot:hover { transform: scale(1.15); }
+.colorDot:active { transform: scale(0.9); }
 
 .title {
   padding: 12px 14px 4px;
@@ -52,6 +61,9 @@
   font-weight: 600;
   cursor: text;
   line-height: 1.4;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 .titleInput {
   display: block;
@@ -63,8 +75,18 @@
   border: none;
   outline: none;
   font-family: inherit;
+  min-height: 44px;
 }
 
 .body {
   padding: 8px 12px 12px;
+}
+
+/* Mobile: disable hover lift (feels wrong on touch) */
+@media (max-width: 768px) {
+  .card:hover { transform: none; box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+  .card:active { transform: scale(0.99); }
+  .colorDot { width: 34px; height: 34px; }
+  .hBtn { min-width: 40px; min-height: 40px; font-size: 17px; }
+  .colorPicker { gap: 12px; }
 }

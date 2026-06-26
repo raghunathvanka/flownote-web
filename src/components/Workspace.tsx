@@ -253,7 +253,20 @@ function TextBody({ note, onUpdate }: { note: Note; onUpdate: (n: Note) => void 
   const [content, setContent] = useState(note.content);
   return (
     <textarea
-      style={{ minHeight: 100, background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '8px 10px', fontSize: 14, color: '#1A1A2E', fontFamily: 'inherit', width: '100%', resize: 'vertical', outline: 'none' }}
+      style={{
+        minHeight: 100,
+        background: 'rgba(0,0,0,0.06)',
+        border: '1px solid rgba(0,0,0,0.12)',
+        borderRadius: 8,
+        padding: '10px 12px',
+        fontSize: 14,
+        color: '#1A1A2E',
+        fontFamily: 'inherit',
+        width: '100%',
+        resize: 'vertical',
+        outline: 'none',
+        lineHeight: 1.6,
+      }}
       value={content}
       onChange={(e) => setContent(e.target.value)}
       onBlur={() => { if (content !== note.content) onUpdate({ ...note, content }); }}
@@ -287,11 +300,11 @@ function ChecklistBody({ note, items, onAddItem, onToggle, onTextChange, onDelet
           <div className="progress-bar" style={{ flex: 1 }}>
             <div className="progress-fill" style={{ width: `${(completed / items.length) * 100}%` }} />
           </div>
-          <span style={{ fontSize: 11, color: '#666', fontWeight: 600 }}>{completed}/{items.length}</span>
+          <span style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', fontWeight: 600 }}>{completed}/{items.length}</span>
         </div>
       )}
       {note.completionDate && (
-        <p style={{ fontSize: 11, color: '#888', marginBottom: 6 }}>📅 Due: {note.completionDate}</p>
+        <p style={{ fontSize: 11, color: 'rgba(0,0,0,0.45)', marginBottom: 6 }}>📅 Due: {note.completionDate}</p>
       )}
 
       {/* Items */}
@@ -330,14 +343,14 @@ function ChecklistBody({ note, items, onAddItem, onToggle, onTextChange, onDelet
       {/* Add item */}
       <div style={{ display: 'flex', gap: 6, marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(0,0,0,0.07)' }}>
         <input
-          style={{ fontSize: 13, flex: 1, padding: '6px 10px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 6, fontFamily: 'inherit', outline: 'none', color: '#1A1A2E' }}
+          style={{ fontSize: 13, flex: 1, padding: '8px 10px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 6, fontFamily: 'inherit', outline: 'none', color: '#1A1A2E', minHeight: 40 }}
           value={newText}
           onChange={(e) => setNewText(e.target.value)}
           placeholder="Add item…"
           onKeyDown={(e) => { if (e.key === 'Enter' && newText.trim()) { onAddItem(newText); setNewText(''); } }}
         />
         <button
-          style={{ padding: '6px 12px', background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600, fontSize: 18, lineHeight: 1 }}
+          style={{ padding: '8px 14px', minWidth: 44, minHeight: 44, background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600, fontSize: 20, lineHeight: 1 }}
           onClick={() => { if (newText.trim()) { onAddItem(newText); setNewText(''); } }}
         >+</button>
       </div>
@@ -357,23 +370,23 @@ function ReminderBody({ note, onUpdate }: { note: Note; onUpdate: (n: Note) => v
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: isPast ? 'rgba(244,67,54,0.08)' : 'rgba(74,144,217,0.1)', borderRadius: 8, border: `1px solid ${isPast ? 'rgba(244,67,54,0.2)' : 'rgba(74,144,217,0.2)'}` }}>
           <span style={{ fontSize: 20 }}>{note.reminderFired ? '✅' : isPast ? '⏰' : '🔔'}</span>
           <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>{note.reminderDate}</p>
-            <p style={{ fontSize: 13, color: '#444' }}>{note.reminderTime}</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'rgba(0,0,0,0.75)' }}>{note.reminderDate}</p>
+            <p style={{ fontSize: 13, color: 'rgba(0,0,0,0.5)' }}>{note.reminderTime}</p>
           </div>
           <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: note.reminderFired ? 'var(--green)' : isPast ? 'var(--red)' : 'var(--accent)' }}>
             {note.reminderFired ? 'Fired' : isPast ? 'Past' : 'Pending'}
           </span>
         </div>
       ) : (
-        <p style={{ fontSize: 13, color: '#888', fontStyle: 'italic', textAlign: 'center' }}>No reminder set</p>
+        <p style={{ fontSize: 13, color: 'rgba(0,0,0,0.4)', fontStyle: 'italic', textAlign: 'center' }}>No reminder set</p>
       )}
 
-      <div style={{ display: 'flex', gap: 8 }}>
-        <input type="date" style={{ flex: 1, fontSize: 13, colorScheme: 'light' }}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <input type="date" style={{ flex: 1, minWidth: 130, fontSize: 13, colorScheme: 'light', minHeight: 44 }}
           defaultValue={note.reminderDate ?? ''}
           onChange={(e) => onUpdate({ ...note, reminderDate: e.target.value, reminderFired: false })}
         />
-        <input type="time" style={{ flex: 1, fontSize: 13, colorScheme: 'light' }}
+        <input type="time" style={{ flex: 1, minWidth: 110, fontSize: 13, colorScheme: 'light', minHeight: 44 }}
           defaultValue={note.reminderTime ?? ''}
           onChange={(e) => onUpdate({ ...note, reminderTime: e.target.value, reminderFired: false })}
         />
