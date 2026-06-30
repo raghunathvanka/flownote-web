@@ -43,6 +43,23 @@ export default function SettingsPanel() {
     setTimeout(() => setCleared(false), 2000);
   };
 
+  const handleExportData = async () => {
+    const { getDB } = await import('@/db/schema');
+    const db = await getDB();
+    const notes = await db.getAll('notes');
+    const checklistItems = await db.getAll('checklistItems');
+    const data = { notes, checklistItems, exportDate: new Date().toISOString() };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `flownote_export_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleResetCarryForward = async () => {
     await setSetting('last_carry_forward_date', '');
     alert('Carry-forward will run again on next page load.');
@@ -140,6 +157,16 @@ export default function SettingsPanel() {
                 <span className={styles.rowDesc}>All data is stored in your browser's IndexedDB — fully offline, never leaves your device</span>
               </div>
               <span className={styles.badge}>🔒 Local</span>
+            </div>
+            <div className={styles.divider} />
+            <div className={styles.row}>
+              <div className={styles.rowInfo}>
+                <span className={styles.rowLabel}>Export All Data</span>
+                <span className={styles.rowDesc}>Download a JSON file containing all your notes and checklists</span>
+              </div>
+              <button className="btn btn-primary" onClick={handleExportData}>
+                📥 Export JSON
+              </button>
             </div>
             <div className={styles.divider} />
             <div className={styles.row}>

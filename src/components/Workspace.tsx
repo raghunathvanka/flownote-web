@@ -217,13 +217,6 @@ export default function Workspace({ date }: Props) {
 
       {/* ── Mobile FAB: Floating + button ── */}
       <div className={styles.fab}>
-        <button
-          className={styles.fabBtn}
-          onClick={() => setAddingType(addingType ? null : 'text')}
-          aria-label="Add note"
-        >
-          <span className={`${styles.fabIcon} ${addingType ? styles.fabIconClose : ''}`}>+</span>
-        </button>
         {addingType !== null && (
           <div className={styles.fabMenu}>
             {(['checklist', 'text', 'reminder'] as const).map(type => (
@@ -238,6 +231,13 @@ export default function Workspace({ date }: Props) {
             ))}
           </div>
         )}
+        <button
+          className={styles.fabBtn}
+          onClick={() => setAddingType(addingType ? null : 'text')}
+          aria-label="Add note"
+        >
+          <span className={`${styles.fabIcon} ${addingType ? styles.fabIconClose : ''}`}>+</span>
+        </button>
       </div>
 
       {/* Close add menu on outside click */}
@@ -251,27 +251,68 @@ export default function Workspace({ date }: Props) {
 // ── Text Note Body ───────────────────────────────────────────────
 function TextBody({ note, onUpdate }: { note: Note; onUpdate: (n: Note) => void }) {
   const [content, setContent] = useState(note.content);
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const file = items[i].getAsFile();
+        if (file) {
+          e.preventDefault();
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const base64 = event.target?.result as string;
+            onUpdate({ ...note, images: [...(note.images || []), base64] });
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  };
+
+  const removeImage = (index: number) => {
+    const newImages = [...(note.images || [])];
+    newImages.splice(index, 1);
+    onUpdate({ ...note, images: newImages });
+  };
+
   return (
-    <textarea
-      style={{
-        minHeight: 100,
-        background: 'rgba(0,0,0,0.06)',
-        border: '1px solid rgba(0,0,0,0.12)',
-        borderRadius: 8,
-        padding: '10px 12px',
-        fontSize: 14,
-        color: '#1A1A2E',
-        fontFamily: 'inherit',
-        width: '100%',
-        resize: 'vertical',
-        outline: 'none',
-        lineHeight: 1.6,
-      }}
-      value={content}
-      onChange={(e) => setContent(e.target.value)}
-      onBlur={() => { if (content !== note.content) onUpdate({ ...note, content }); }}
-      placeholder="Type your notes here…"
-    />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <textarea
+        style={{
+          minHeight: 100,
+          background: 'rgba(0,0,0,0.06)',
+          border: '1px solid rgba(0,0,0,0.12)',
+          borderRadius: 8,
+          padding: '10px 12px',
+          fontSize: 14,
+          color: '#1A1A2E',
+          fontFamily: 'inherit',
+          width: '100%',
+          resize: 'vertical',
+          outline: 'none',
+          lineHeight: 1.6,
+        }}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        onBlur={() => { if (content !== note.content) onUpdate({ ...note, content }); }}
+        onPaste={handlePaste}
+        placeholder="Type your notes here... You can also paste images."
+      />
+      {note.images && note.images.length > 0 && (
+        <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+          {note.images.map((img, i) => (
+            <div key={i} style={{ position: 'relative', flexShrink: 0 }}>
+              <img src={img} alt="Attachment" style={{ height: 100, borderRadius: 8, border: '1px solid var(--border)', objectFit: 'cover' }} />
+              <button 
+                onClick={() => removeImage(i)}
+                style={{ position: 'absolute', top: -6, right: -6, background: 'var(--red)', color: 'white', border: 'none', borderRadius: '50%', width: 20, height: 20, cursor: 'pointer', fontSize: 14, lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >×</button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

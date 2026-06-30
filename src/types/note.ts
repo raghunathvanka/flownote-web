@@ -24,6 +24,7 @@ export interface Note {
   reminderFired: boolean;
   createdAt: string;
   completionDate?: string;
+  images?: string[];
 }
 
 export type CreateNote = Omit<Note, 'id'>;

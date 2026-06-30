@@ -9,6 +9,16 @@ import styles from './page.module.css';
 
 type Page = 'workspace' | 'calendar' | 'settings';
 
+function formatDateLabel(dateStr: string): string {
+  const today = new Date().toISOString().split('T')[0];
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+  if (dateStr === today) return 'Today';
+  if (dateStr === yesterday) return 'Yesterday';
+  if (dateStr === tomorrow) return 'Tomorrow';
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
 const PAGE_ICONS: Record<Page, string> = {
   workspace: '📝',
   calendar: '📅',
@@ -88,7 +98,7 @@ export default function Home() {
             <span /><span /><span />
           </button>
           <span className={styles.mobileTitle}>
-            {PAGE_ICONS[page]} {PAGE_LABELS[page]}
+            {PAGE_ICONS[page]} {page === 'workspace' ? formatDateLabel(selectedDate) : PAGE_LABELS[page]}
           </span>
           <div style={{ width: 40 }} />
         </div>
