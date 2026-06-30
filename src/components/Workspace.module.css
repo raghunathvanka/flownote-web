@@ -92,7 +92,8 @@
     gap: 12px;
     grid-template-columns: 1fr;
   }
-  .fab { bottom: 80px; right: 16px; width: 52px; height: 52px; border-radius: 26px; }
+  .fab { bottom: 20px; right: 16px; }
+  .fabBtn { width: 52px; height: 52px; border-radius: 26px; }
 }
 
 .noteWrapper { display: flex; flex-direction: column; }
